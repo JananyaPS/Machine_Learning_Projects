@@ -1,8 +1,6 @@
 import numpy as np
 from typing import Dict, List, Tuple
 from scipy.sparse import csr_matrix
-
-
 def _get_item_representation_matrix(model, item_features=None):
     """
     Returns (biases, embeddings_matrix) for items.
@@ -11,14 +9,12 @@ def _get_item_representation_matrix(model, item_features=None):
     item_biases, item_emb = model.get_item_representations(item_features)
     return item_biases, item_emb
 
-
 def _user_history_internal_items(interactions: csr_matrix, user_internal_id: int) -> np.ndarray:
     """
     Returns internal item indices that the user has interacted with (positive implicit interactions).
     """
     row = interactions[user_internal_id]
     return row.indices  # items with non-zero interactions
-
 
 def build_user_profile_from_history(
     model,
@@ -39,13 +35,11 @@ def build_user_profile_from_history(
         return np.zeros(item_emb.shape[1], dtype=np.float32)
 
     profile = item_emb[hist_items].mean(axis=0)
-
     if normalize:
         norm = np.linalg.norm(profile) + 1e-12
         profile = profile / norm
 
     return profile.astype(np.float32)
-
 
 def score_items_with_profile(
     profile_vec: np.ndarray,
@@ -57,7 +51,6 @@ def score_items_with_profile(
     """
     return profile_vec @ item_emb.T + item_bias
 
-
 def topk_from_scores(scores: np.ndarray, k: int, exclude_mask: np.ndarray = None) -> np.ndarray:
     """
     Returns top-k indices by score, optionally excluding items using a boolean mask.
@@ -66,7 +59,6 @@ def topk_from_scores(scores: np.ndarray, k: int, exclude_mask: np.ndarray = None
     if exclude_mask is not None:
         s[exclude_mask] = -1e9
     return np.argsort(-s)[:k]
-
 
 def most_influential_history_item(
     model,
@@ -85,7 +77,7 @@ def most_influential_history_item(
 
     if hist_items.size == 0:
         return -1, 0.0
-
+        
     target_vec = item_emb[target_item_internal_id]
     target_norm = np.linalg.norm(target_vec) + 1e-12
     target_vec = target_vec / target_norm
@@ -97,7 +89,6 @@ def most_influential_history_item(
     sims = hist_vecs @ target_vec
     best_idx = int(np.argmax(sims))
     return int(hist_items[best_idx]), float(sims[best_idx])
-
 
 def counterfactual_explanation(
     model,
