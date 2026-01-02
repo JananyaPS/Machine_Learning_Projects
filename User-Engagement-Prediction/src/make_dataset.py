@@ -34,12 +34,10 @@ def main() -> None:
     ratings, movies = load_raw()
     df = build_interactions(ratings, movies)
     train, test = time_split_last_interaction_per_user(df)
-
     train_path = PROCESSED_DIR / "train.csv"
     test_path = PROCESSED_DIR / "test.csv"
     train.to_csv(train_path, index=False)
     test.to_csv(test_path, index=False)
-
     print(f"Saved train: {train_path} | rows={len(train)}")
     print(f"Saved test : {test_path}  | rows={len(test)}")
 
