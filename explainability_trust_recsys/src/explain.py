@@ -2,12 +2,10 @@ import numpy as np
 import pandas as pd
 from typing import Dict, Tuple
 
-
 def _sparse_row_indices_and_data(sparse_row):
     indices = sparse_row.indices
     data = sparse_row.data
     return indices, data
-
 
 def explain_recommendation(
     model,
@@ -50,14 +48,12 @@ def explain_recommendation(
         "top_item_feature_contributions": [{"feature": f, "contribution": c} for f, c in top],
     }
 
-
 def movie_title(movie_id: int, movies_df: pd.DataFrame) -> str:
     if movies_df is None:
         return str(movie_id)
     if movie_id in movies_df.index:
         return str(movies_df.loc[movie_id, "title"])
     return str(movie_id)
-
 
 def format_feature_explanation(expl: Dict, item_movie_id: int, movies_df: pd.DataFrame) -> str:
     title = movie_title(item_movie_id, movies_df)
