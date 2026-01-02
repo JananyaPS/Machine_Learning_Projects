@@ -39,12 +39,9 @@ def main() -> None:
     # Notes: With pipelines, we need transformed data. We'll use the pipeline steps directly.
     scaler = model.named_steps["scaler"]
     clf = model.named_steps["clf"]
-
     X_scaled = scaler.transform(X)
-
     explainer = shap.LinearExplainer(clf, X_scaled)
     shap_values = explainer(X_scaled)
-
     shap.summary_plot(shap_values, features=X, show=False, max_display=20)
     shap_path = REPORTS_DIR / "shap_summary_top20.png"
     plt.savefig(shap_path, dpi=200, bbox_inches="tight")
