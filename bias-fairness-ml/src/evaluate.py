@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 import argparse
 from pathlib import Path
 from typing import Dict, Any
-
 import joblib
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -63,13 +61,10 @@ def evaluate_one_sensitive(
 def main(test_path: Path, model_path: Path, out_json: Path) -> None:
     paths = Paths()
     cfg = DataConfig()
-
     ensure_dir(paths.reports_dir)
-
     df = pd.read_csv(test_path)
     blob = joblib.load(model_path)
     model = blob["model"]
-
     y_raw = df[cfg.target_col].astype(str)
     y_true = (y_raw.str.contains(">50K") | y_raw.str.contains("1")).astype(int)
     X = df.drop(columns=[cfg.target_col])
