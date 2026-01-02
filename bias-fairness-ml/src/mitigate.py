@@ -1,15 +1,12 @@
 from __future__ import annotations
-
 import argparse
 from pathlib import Path
 from typing import Dict, Any, Tuple
-
 import joblib
 import numpy as np
 import pandas as pd
 from fairlearn.metrics import demographic_parity_difference, equalized_odds_difference
 from sklearn.metrics import accuracy_score, f1_score
-
 from config import Paths, DataConfig
 from utils import ensure_dir, save_json
 
