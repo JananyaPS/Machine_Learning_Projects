@@ -19,14 +19,11 @@ def main() -> None:
     # restore datetimes
     train["ts"] = pd.to_datetime(train["ts"], utc=True)
     test["ts"] = pd.to_datetime(test["ts"], utc=True)
-
     aggs = fit_aggregates(train)
     train_f = apply_aggregates(train, aggs)
     test_f = apply_aggregates(test, aggs)
-
     X_train_df = make_model_table(train_f)
     X_test_df = make_model_table(test_f)
-
     y_train = X_train_df.pop("engaged")
     y_test = X_test_df.pop("engaged")
 
@@ -34,12 +31,10 @@ def main() -> None:
         ("scaler", StandardScaler(with_mean=True, with_std=True)),
         ("clf", LogisticRegression(max_iter=2000, random_state=RANDOM_SEED))
     ])
-
     model.fit(X_train_df, y_train)
     proba = model.predict_proba(X_test_df)[:, 1]
     auc = roc_auc_score(y_test, proba)
     print(f"Test ROC-AUC: {auc:.4f}")
-
     artifact = {
         "model": model,
         "aggs": aggs,
