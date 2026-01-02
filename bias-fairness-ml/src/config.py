@@ -21,7 +21,6 @@ class DataConfig:
 class TrainConfig:
     test_size: float = 0.2
     random_state: int = 42
-
     # Baseline model choice
     # We'll use LogisticRegression for interpretability + strong baseline.
     max_iter: int = 200
