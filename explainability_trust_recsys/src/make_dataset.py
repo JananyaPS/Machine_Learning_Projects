@@ -2,7 +2,6 @@ import re
 import pandas as pd
 from pathlib import Path
 from typing import Tuple, Dict, List
-
 from scipy.sparse import csr_matrix
 from lightfm.data import Dataset
 
