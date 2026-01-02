@@ -1,13 +1,10 @@
 from __future__ import annotations
-
 import argparse
 from dataclasses import asdict
 from pathlib import Path
 from typing import Tuple
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
-
 from config import Paths, DataConfig, TrainConfig
 from utils import ensure_dir, save_json
 
