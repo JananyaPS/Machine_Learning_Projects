@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 import json
 from pathlib import Path
 from typing import Any, Dict
-
 import matplotlib.pyplot as plt
 
 def ensure_dir(path: Path) -> None:
