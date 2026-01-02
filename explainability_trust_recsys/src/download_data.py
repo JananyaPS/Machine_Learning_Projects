@@ -1,7 +1,6 @@
 import zipfile
 from pathlib import Path
 from urllib.request import urlretrieve
-
 from src.config import DATA_DIR, MOVIELENS_1M_URL
 
 def download_and_extract(dest_dir: Path = DATA_DIR) -> Path:
