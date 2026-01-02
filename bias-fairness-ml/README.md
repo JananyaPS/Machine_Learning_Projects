@@ -51,30 +51,18 @@ The implementation is **production-minded** and reproducible, using modular scri
 ---
 
 ## Repository structure (visual)
-
 netflix-bias-fairness-ml/
 ├── README.md # project documentation
 ├── requirements.txt # python dependencies
 ├── .gitignore
 ├── data/ # auto-created; do not commit raw data
-│ ├── raw_adult.csv
-│ ├── train.csv
-│ └── test.csv
 ├── models/ # saved model artifacts
-│ ├── baseline.joblib
-│ └── mitigated_thresholds.joblib
-├── reports/ # metrics (JSON) + visualizations
-│ ├── eval_baseline.json
-│ ├── mitigation_report.json
-│ ├── confusion_matrix_overall.png
-│ ├── sensitive_sex_selection_rate.png
-│ ├── sensitive_sex_tpr.png
-│ └── sensitive_sex_fpr.png
+├── reports/ # metrics (JSON) + plots
 └── src/
-├── config.py # dataset config & hyperparameters
-├── utils.py # helper utilities (IO, plotting)
+├── config.py # configuration & hyperparameters
+├── utils.py # shared utility functions
 ├── download_data.py # dataset download (OpenML)
 ├── make_dataset.py # preprocessing & train/test split
 ├── train.py # baseline model training
 ├── evaluate.py # performance + fairness evaluation
-└── mitigate.py # bias mitigation logic
+└── mitigate.py # bias mitigation strategy
