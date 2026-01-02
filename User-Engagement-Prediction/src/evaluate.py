@@ -44,7 +44,6 @@ def main() -> None:
     pr_path = REPORTS_DIR / "pr_curve.png"
     plt.savefig(pr_path, dpi=200, bbox_inches="tight")
     plt.close()
-
     print(f"Saved plots: {roc_path}, {pr_path}")
 
 if __name__ == "__main__":
