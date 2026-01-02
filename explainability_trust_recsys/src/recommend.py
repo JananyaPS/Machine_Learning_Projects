@@ -9,7 +9,6 @@ def recommend_for_user(
     k: int = 10,
 ):
     n_users, n_items = interactions.shape
-
     scores = model.predict(
         user_ids=user_internal_id,
         item_ids=np.arange(n_items),
