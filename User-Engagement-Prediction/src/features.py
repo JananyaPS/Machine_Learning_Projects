@@ -53,7 +53,6 @@ def apply_aggregates(df: pd.DataFrame, aggs: dict) -> pd.DataFrame:
     # basic time features
     out["rating_hour"] = out["ts"].dt.hour.astype(int)
     out["rating_dayofweek"] = out["ts"].dt.dayofweek.astype(int)
-
     return out
 
 def make_model_table(df: pd.DataFrame) -> pd.DataFrame:
