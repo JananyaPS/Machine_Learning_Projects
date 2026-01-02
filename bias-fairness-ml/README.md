@@ -52,17 +52,18 @@ The implementation is **production-minded** and reproducible, using modular scri
 
 ## Repository structure (visual)
 netflix-bias-fairness-ml/
-├── README.md # project documentation
-├── requirements.txt # python dependencies
+├── README.md                 # project documentation
+├── requirements.txt          # python dependencies
 ├── .gitignore
-├── data/ # auto-created; do not commit raw data
-├── models/ # saved model artifacts
-├── reports/ # metrics (JSON) + plots
+├── data/                     # auto-created; do not commit raw data
+├── models/                   # saved model artifacts
+├── reports/                  # metrics (JSON) + plots
 └── src/
-├── config.py # configuration & hyperparameters
-├── utils.py # shared utility functions
-├── download_data.py # dataset download (OpenML)
-├── make_dataset.py # preprocessing & train/test split
-├── train.py # baseline model training
-├── evaluate.py # performance + fairness evaluation
-└── mitigate.py # bias mitigation strategy
+    ├── config.py             # configuration & hyperparameters
+    ├── utils.py              # shared utility functions
+    ├── download_data.py      # dataset download (OpenML)
+    ├── make_dataset.py       # preprocessing & train/test split
+    ├── train.py              # baseline model training
+    ├── evaluate.py           # performance + fairness evaluation
+    └── mitigate.py           # bias mitigation strategy
+
