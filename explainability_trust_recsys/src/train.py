@@ -3,7 +3,6 @@ import numpy as np
 from lightfm import LightFM
 from lightfm.cross_validation import random_train_test_split
 from lightfm.evaluation import precision_at_k, auc_score
-
 from src.config import MODELS_DIR, RANDOM_SEED, NO_COMPONENTS, LEARNING_RATE, EPOCHS, NUM_THREADS
 
 def train_lightfm(interactions, user_features, item_features):
