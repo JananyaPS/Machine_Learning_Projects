@@ -51,14 +51,22 @@ explainability-trust-recs/
 ├── models/                # saved models (checkpoints, serialized artifacts)
 
 ├── reports/               # explanations & trust metrics outputs (CSV/JSON/plots)
+
 └── src/
     ├── config.py          # default configuration / hyperparameters
+    
     ├── download_data.py   # script to download MovieLens or other datasets
+    
     ├── make_dataset.py    # process raw data → implicit interactions + feature matrices
+    
     ├── train.py           # train LightFM hybrid model and save artifacts to models/
+    
     ├── recommend.py       # generate recommendations from a saved model
+    
     ├── explain.py         # compute feature attributions and counterfactuals
+    
     ├── trust_metrics.py   # compute coverage / novelty / diversity / stability
+    
     └── run_all.py         # convenience script to run the full pipeline end-to-end
 
 ## Quickstart (one-liners)
