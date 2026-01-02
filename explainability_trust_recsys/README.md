@@ -43,9 +43,13 @@ Top-level layout (folders and primary files)
 
 explainability-trust-recs/
 ├── README.md
+
 ├── requirements.txt
+
 ├── data/                  # auto-created; do not commit raw data
+
 ├── models/                # saved models (checkpoints, serialized artifacts)
+
 ├── reports/               # explanations & trust metrics outputs (CSV/JSON/plots)
 └── src/
     ├── config.py          # default configuration / hyperparameters
