@@ -1,9 +1,7 @@
 from __future__ import annotations
-
 import argparse
 from pathlib import Path
 from typing import List, Tuple
-
 import joblib
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -11,7 +9,6 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
-
 from config import Paths, DataConfig, TrainConfig
 from utils import ensure_dir
 
