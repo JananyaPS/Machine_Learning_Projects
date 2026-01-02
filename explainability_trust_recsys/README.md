@@ -7,7 +7,7 @@ Hybrid Recommender with Feature Attribution, Counterfactual Explanations, and Tr
 Table of contents
 - Project overview
 - Key capabilities
-- Repository structure
+- Repository structure (visual)
 - Quickstart (one-liners)
 - Installation / environment
 - Data (download & preprocessing)
@@ -38,36 +38,26 @@ The implementation is a production-minded demonstration (scripts, config, saved 
 - Counterfactual explanations that identify influential past interactions and show how recommendations change when they are removed.
 - Trust and robustness metrics: catalog coverage, novelty (popularity bias), genre diversity, and a stability proxy.
 
-## Repository structure
-Top-level layout (folders and primary files)
+## Repository structure (visual)
+Top-level layout (folders and primary files) — shown here in the same style as the project documentation:
 
+```
 explainability-trust-recs/
 ├── README.md
-
 ├── requirements.txt
-
 ├── data/                  # auto-created; do not commit raw data
-
 ├── models/                # saved models (checkpoints, serialized artifacts)
-
 ├── reports/               # explanations & trust metrics outputs (CSV/JSON/plots)
-
 └── src/
     ├── config.py          # default configuration / hyperparameters
-    
     ├── download_data.py   # script to download MovieLens or other datasets
-    
     ├── make_dataset.py    # process raw data → implicit interactions + feature matrices
-    
     ├── train.py           # train LightFM hybrid model and save artifacts to models/
-    
     ├── recommend.py       # generate recommendations from a saved model
-    
     ├── explain.py         # compute feature attributions and counterfactuals
-    
     ├── trust_metrics.py   # compute coverage / novelty / diversity / stability
-    
     └── run_all.py         # convenience script to run the full pipeline end-to-end
+```
 
 ## Quickstart (one-liners)
 1. Create environment and install dependencies:
@@ -98,107 +88,93 @@ python src/trust_metrics.py --model models/best_model.npz --data data/processed/
 ```bash
 pip install -r requirements.txt
 ```
-- requirements.txt includes LightFM, pandas, numpy, scipy, scikit-learn, matplotlib/plotly (for plots), and any utilities (argparse/typer).
+- requirements.txt includes LightFM, pandas, numpy, scipy, scikit-learn, matplotlib/plotly for plots, and any CLI utilities used by scripts.
 
-Optional: a Dockerfile or binder configuration can be added to reproduce the environment in CI or demo.
+Optional: add a Dockerfile or Binder configuration if you want a reproducible container for demos.
 
 ## Data (download & preprocessing)
-This project uses MovieLens 1M by default (GroupLens). The dataset must be downloaded from:
+This project uses MovieLens 1M by default (GroupLens). Download from:
 https://grouplens.org/datasets/movielens/1m/
 
 Scripts:
 - src/download_data.py
-  - Downloads and unpacks movielens-1m (or verifies a local copy)
+  - Downloads and unpacks movielens-1m (or validates a supplied local copy).
   - Example:
     ```bash
     python src/download_data.py --dataset movielens-1m --output data/
     ```
 - src/make_dataset.py
-  - Converts explicit ratings to implicit interactions (e.g., threshold rating >= 4)
-  - Builds user and item side feature matrices (one-hot or multi-hot for genres; simple demographics for users)
-  - Saves processed matrices/scipy sparse files into data/processed/
+  - Converts explicit ratings into implicit interactions (e.g., binarize rating >= 4).
+  - Builds user and item side feature matrices (one-hot or multi-hot for genres; user demographics).
+  - Saves processed matrices (sparse formats) into data/processed/.
 
 Notes:
-- The pipeline assumes implicit feedback for training (binary interactions).
-- All raw data should remain out of the repository (data/ is listed as auto-created). Commit only small derived artifacts if necessary.
+- data/ is auto-created and should not contain large raw files committed to Git.
+- The pipeline expects implicit feedback by default; adjust thresholds in src/config.py.
 
 ## Usage (scripts & examples)
-All scripts support --help for available options, e.g.:
+All scripts support --help; e.g.:
 ```bash
 python src/train.py --help
 ```
 
 Common workflows:
-- Train a model:
+- Train:
   ```bash
   python src/train.py --config src/config.py --save-dir models/
   ```
-  Outputs: model weight file(s) in models/, a training log, and optionally validation metrics.
+  Outputs model files in models/, plus logs and optional validation metrics.
 
-- Generate recommendations for a user:
+- Recommend for a single user:
   ```bash
   python src/recommend.py --model models/best_model.npz --user-id 123 --topk 10 --output reports/recs_user123.json
   ```
 
-- Produce explanations (feature attribution + counterfactuals):
+- Explain (feature attribution + counterfactuals):
   ```bash
   python src/explain.py --model models/best_model.npz --user-id 123 --topk 10 --output reports/explanations_user123.json
   ```
 
-- Compute trust/robustness metrics for your test set:
+- Compute trust metrics:
   ```bash
   python src/trust_metrics.py --model models/best_model.npz --data data/processed/ --output reports/trust_metrics.json
   ```
 
-- End-to-end run:
+- End-to-end:
   ```bash
   python src/run_all.py --config src/config.py
   ```
 
 ## Methods (brief)
-This section gives concise descriptions of the methods implemented. For detailed implementation, see corresponding modules in src/.
+See corresponding modules in src/ for implementation details.
 
 Hybrid model
-- LightFM (implicit) is used with WARP loss optimized for top-k ranking.
-- Model inputs: interaction matrix (users × items), user features, item features.
-- Embedding dimensionality, epochs, and other hyperparameters are in src/config.py.
+- LightFM (implicit) with WARP loss for top-k ranking.
+- Inputs: user×item interaction matrix and side-feature matrices for users/items.
+- Hyperparameters (embedding dim, epochs, learning rate) live in src/config.py.
 
 Feature attribution
-- We compute feature-level contribution scores to each recommendation using the model's linear combination of embeddings with side-feature effects.
-- Attribution is reported per recommendation as a list of contributing features (e.g., genres) with signed scores (positive => increases score).
-- The implementation is in src/explain.py; the approach is model-aware (uses LightFM weights) rather than an expensive model-agnostic explainer, for speed.
+- Compute feature-level contributions by leveraging model weights and side-feature embeddings.
+- Explanations are signed contributions (positive increases score).
+- Implemented to be model-aware for efficiency (src/explain.py).
 
-Counterfactual explanations
-- For each top recommendation, we compute the most influential past interaction(s) by:
-  - Removing a single past positive interaction for the user, re-scoring the top candidates, and measuring rank change (single-interaction ablation).
-  - We report the interaction whose removal causes the largest negative impact on the recommended item's rank.
-- This brute-force single-interaction ablation is simple and interpretable; depending on scale, an approximate influence or importance heuristic can be used.
-- Implemented in src/explain.py.
+Counterfactuals
+- Single-interaction ablation: remove one past positive interaction, re-score items and measure the rank change.
+- The interaction whose removal most decreases rank for a recommended item is reported as the influential one.
+- Brute-force but simple and interpretable; alternatives (approximate influence functions) are discussed in code comments.
 
 Trust metrics
-- Catalog coverage: fraction of catalog that appears in top-K lists across users.
-- Novelty: average popularity (lower = more novel); often measured as average inverse log-popularity of recommended items.
-- Genre diversity: intra-list diversity — the proportion of unique genres within recommendation lists and diversity aggregated across users.
-- Stability (proxy): compare recommendation lists before and after small perturbations (e.g., random drop of 1–2 interactions) and compute average rank or Jaccard change.
-- Implemented in src/trust_metrics.py; metric definitions and aggregation options are configurable.
+- Catalog coverage: fraction of items that appear across users' top-K lists.
+- Novelty: average item popularity measure (e.g., inverse log-popularity).
+- Genre diversity: intra-list diversity and aggregated diversity across users.
+- Stability: proxy measured by change in recommendations after small perturbations (e.g., random drop of interactions); Jaccard or rank-based measures used.
+- Implementations available in src/trust_metrics.py with configurable aggregation.
 
 ## Evaluation & reproducibility
-- Ranking metrics: Recall@K, Precision@K, NDCG@K are computed on holdout interactions.
-- Trust metrics (see above) are computed on the same evaluation splits.
-- Reproducibility:
-  - Use src/config.py to set seeds, hyperparameters, and data splits.
-  - Keep the model checkpoint saved in models/.
-  - Save experiment logs and metrics in reports/ with timestamped filenames.
+- Ranking metrics: Recall@K, Precision@K, NDCG@K on holdout interactions.
+- Trust metrics computed on the same evaluation splits.
+- Use src/config.py to control seeds, data split strategy, and hyperparameters.
+- Save checkpoints and logs to models/ and reports/ with timestamps.
 
-Example evaluation flow:
-1. Split users/interactions (stratified or leave-one-out) — see make_dataset.py.
-2. Train on train split, validate on validation split, evaluate on test split.
-3. Record both ranking and trust metrics.
 
-## Example outputs
-- Recommendation (JSON):
-```json
-{
-  "user_id": 123,
-  "topk":
 
