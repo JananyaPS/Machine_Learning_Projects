@@ -24,14 +24,14 @@ The project is designed to demonstrate **production-ready ML thinking**, not jus
   - Item side features (genres)
 - Optimized using **WARP loss** for ranking quality
 
-### 2. Feature-Attribution Explanations (“Why this title?”)
+### 2. Feature-Attribution Explanations 
 - Computes **feature-level contribution scores**
 - Explains recommendations using interpretable signals such as:
   - Genre affinity
 - Example:
   > *Recommended because of strong alignment with Action (+0.42) and Thriller (+0.31)*
 
-### 3. Counterfactual Explanations (“What if?”)
+### 3. Counterfactual Explanations 
 - Identifies the **most influential past interaction**
 - Generates post-hoc explanations:
   - *“Because you liked X…”*
