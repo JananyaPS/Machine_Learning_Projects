@@ -8,7 +8,6 @@ from src.explain import explain_recommendation, format_feature_explanation
 from src.trust_metrics import item_popularity, summarize_trust_metrics
 from src.counterfactual import counterfactual_explanation
 
-
 def main():
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -133,7 +132,6 @@ def main():
     (REPORTS_DIR / "summary.txt").write_text("\n".join(lines), encoding="utf-8")
 
     print("[DONE] Reports saved in:", REPORTS_DIR)
-
 
 if __name__ == "__main__":
     main()
