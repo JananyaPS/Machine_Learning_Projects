@@ -6,7 +6,7 @@ This repository serves as a **professional data science portfolio** demonstratin
 
 ---
 
-## 🗂️ Projects Included
+## Projects Included
 
 | Folder | Description |
 |--------|-------------|
@@ -19,7 +19,7 @@ This repository serves as a **professional data science portfolio** demonstratin
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### 1. Clone the Repository
 
@@ -31,3 +31,46 @@ cd Machine_Learning_Projects
 python -m venv venv
 source venv/bin/activate   # macOS/Linux
 venv\Scripts\activate      # Windows
+
+3. Install Dependencies
+pip install -r requirements.txt
+
+---
+## What You Will Find Here
+
+This repository covers the complete machine learning lifecycle, including:
+Data collection and cleaning
+Exploratory Data Analysis (EDA)
+Feature engineering
+Model training and hyperparameter tuning
+Performance evaluation
+Bias and fairness analysis
+Model explainability
+
+---
+
+## Evaluation Metrics Used :
+
+Depending on the project, models are evaluated using:
+Accuracy, Precision, Recall, F1-Score
+ROC-AUC and confusion matrices
+RMSE, MAE, R² (for regression)
+Fairness and bias metrics
+Feature importance and explainability scores
+
+---
+## Tools & Technologies
+
+Python
+NumPy, Pandas
+Scikit-learn
+Matplotlib, Seaborn
+Jupyter Notebook
+Fairness and explainability libraries (e.g., SHAP, LIME)
+
+--- 
+## Author
+
+## JananyaPS
+Aspiring Data Scientist | Machine Learning Enthusiast
+Building ethical, interpretable, and data-driven ML solutions
