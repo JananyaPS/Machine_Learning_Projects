@@ -1,90 +1,84 @@
 # Content Recommendation Ranking System (Offline + Online)
 
-An end-to-end Learning-to-Rank system that mimics Netflix’s core ranking problem —
-ranking candidate content for a user using offline training and online inference.
-## Why Ranking Matters
+**Production-style Learning-to-Rank system that orders streaming content candidates using offline training and real-time online scoring.**
 
-Modern recommender systems operate in two stages:
-1. Retrieval — fast candidate generation
-2. Ranking — precise ordering of items shown to users
+---
 
-This project focuses on the ranking stage, which directly impacts engagement,
-watch-time, and user satisfaction.
-## Tech Stack
+## Problem it solves
+Modern recommender systems are two-stage:
+- **Retrieval** finds possible items
+- **Ranking** decides what users actually see
 
-- Python
-- LightGBM (LambdaRank)
-- pandas / numpy
-- FastAPI
-- PyYAML
-- pytest + GitHub Actions
-## System Architecture
+This project focuses on **ranking**, optimizing list quality under latency constraints using **Learning-to-Rank (LTR)** rather than simple recommendation scores.
 
-Raw Interaction Logs
-→ Negative Sampling
-→ Feature Engineering (User / Item / Context)
-→ Learning-to-Rank Training (LambdaMART)
-→ Model Registry
-→ Online Ranking API (FastAPI)
-## Data
+---
 
-Synthetic interaction data is generated to simulate real streaming behavior:
-- Users, content items, and sessions
-- Implicit feedback (click, play, watch time)
-- Graded relevance labels (0–3)
+## Key results (offline)
+| Metric | Validation | Test |
+|------|------------|------|
+| **NDCG@10** | ~0.6–0.7* | ~0.6–0.7* |
+| **MAP@10**  | ~0.4–0.5* | ~0.4–0.5* |
 
-Labels:
-0 = no engagement  
-1 = click  
-2 = short play  
-3 = long play
-## Modeling Approach
+\*Synthetic dataset; fully reproducible via config.
 
-- Problem formulation: Learning-to-Rank
-- Query group: (user_id, session_id)
-- Model: LightGBM LambdaRank
-- Objective: NDCG optimization
-- Training includes:
-  - Negative sampling
-  - Time-based train/val/test splits
-  - Early stopping
-## Evaluation Metrics
+---
 
-- NDCG@K — evaluates ranking quality with graded relevance
-- MAP@K — evaluates precision of relevant items
+## Tech stack
+**Python · LightGBM (LambdaMART) · FastAPI · Pandas · NumPy · Pytest · GitHub Actions**
 
-Metrics are computed per (user, session) group.
-## How to Run
+---
 
-### Generate data
+## Quickstart (2 minutes)
+
+```bash
+# 1. Setup
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# 2. Generate data
 python -m src.ranking.data.generate_interactions --config configs/ranker.yaml
 
-### Train ranking model
+# 3. Train & evaluate
 python -m src.ranking.models.train_ltr --config configs/ranker.yaml
 
-### Start ranking API
-uvicorn src.ranking.api.app:app --reload
-## Online Ranking API
+# 4. Run API
+uvicorn src.ranking.api.app:app --reload --port 8000
 
-POST /rank
+---
+## Architecture
+OFFLINE
+logs → negative sampling → features → LTR training → evaluation → model registry
 
-Input:
-- user_id
-- candidate item_ids
-- request context (device, time)
+ONLINE
+request(user + context + candidates)
+        ↓
+feature lookup/build → score → rank → response
 
-Output:
-- ranked list of items with scores
-## Repository Structure
+# Repository Structure
+configs/     → pipeline & model parameters
+src/         → modular data / features / models / inference / API
+artifacts/   → trained models + evaluation reports
+tests/       → unit tests
+.github/     → CI (GitHub Actions)
 
-src/ranking/
-- data/        # interaction processing & negative sampling
-- features/    # user, item, context features
-- models/      # training, evaluation, registry
-- inference/   # online ranking logic
-- api/         # FastAPI service
-##  
+## Metrics & Evaluation
 
-Built an end-to-end content ranking system using Learning-to-Rank (LightGBM LambdaRank),
-including offline feature engineering, negative sampling, NDCG/MAP evaluation,
-and an online FastAPI ranking service.
+Ranking quality is evaluated using **listwise metrics**, computed per `(user_id, session_id)` group.
+
+- **Metrics**
+  - **NDCG@K (K = 10):** Measures ranking quality with higher weight on correctly ordered top results
+  - **MAP@K (K = 10):** Captures precision across ranked positions for relevant items
+
+- **Data Splits**
+  - **Time-based split** (train → validation → test)
+  - Ensures the model never trains on future user behavior
+
+- **Negative Sampling**
+  - Fixed **K negatives per positive interaction**
+  - Simulates real-world ranking lists where relevant items compete against many irrelevant ones
+
+- **Leakage Prevention**
+  - No future interactions or aggregates used during training
+  - Rolling user/item features computed only from past data
+  - Validation and test sets strictly follow temporal order
+
