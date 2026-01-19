@@ -2,14 +2,12 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-
 def build_item_popularity(interactions: pd.DataFrame) -> pd.Series:
     # Popularity based on any exposure; weight higher labels more
     w = interactions["label"].clip(lower=0).astype(float)
     pop = interactions.groupby("item_id")[w.name].sum()
     pop = pop / pop.sum()
     return pop.sort_values(ascending=False)
-
 
 def sample_negatives_for_user(
     user_history: set[str],
@@ -45,7 +43,6 @@ def sample_negatives_for_user(
         return negs
 
     raise ValueError(f"Unknown sampling strategy: {strategy}")
-
 
 def make_ranking_dataset(
     interactions: pd.DataFrame,
