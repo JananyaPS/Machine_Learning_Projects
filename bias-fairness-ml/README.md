@@ -1,52 +1,51 @@
-# Bias & Fairness Auditing in Machine Learning Systems
+# Bias & Fairness Auditing for ML Decision Systems
 
-End-to-End Fairness Evaluation, Bias Diagnostics, and Mitigation for Decision Models
-
----
-
-## Table of contents
-- Project overview
-- Key capabilities
-- Repository structure (visual)
-- Quickstart (one-liners)
-- Installation / environment
-- Data (download & preprocessing)
-- Usage (scripts & examples)
-- Methods (brief)
-  - Baseline modeling
-  - Fairness metrics
-  - Bias diagnostics
-  - Mitigation strategy
-- Evaluation & reproducibility
-- Example outputs
-- Development notes
-- Citation & license
-- Contact
+**Production-style pipeline to detect, quantify, and mitigate bias in ML models using industry-standard fairness metrics and reproducible artifacts.**
 
 ---
 
-## Project overview
-This project implements an **end-to-end bias and fairness auditing pipeline** for machine-learning models, inspired by **large-scale personalization and decision systems** used in streaming platforms such as Netflix.
+## 🔍 What problem this solves
+Modern ML systems optimize accuracy but can unintentionally produce **systematic disparities** across user groups.  
+This project adds a **fairness layer** to the ML lifecycle:
 
-Instead of optimizing only predictive accuracy, the pipeline explicitly evaluates whether model decisions are **fair and equitable across demographic groups**. It provides measurable fairness metrics, interpretable diagnostics, and a practical mitigation strategy that mirrors real-world ML system constraints.
+- Audits model outcomes across sensitive attributes (e.g., sex, race)
+- Quantifies bias using standard fairness metrics
+- Applies mitigation while tracking accuracy–fairness trade-offs
 
-The project trains a baseline classifier, audits outcomes across **sensitive attributes** (e.g., sex, race), computes standard fairness metrics, and applies **post-processing bias mitigation** while tracking accuracy–fairness trade-offs.
-
-The implementation is **production-minded** and reproducible, using modular scripts, configuration files, saved model artifacts, and structured reports.
+**Scope**: decision models used in personalization, eligibility, and ranking pipelines  
+**Focus**: correctness, transparency, and reproducibility (not just accuracy)
 
 ---
 
-## Key capabilities
-- End-to-end ML pipeline (data → model → evaluation → mitigation)
-- Fairness auditing across sensitive attributes (sex, race)
-- Industry-standard fairness metrics:
-  - Demographic Parity (difference & ratio)
-  - Equalized Odds
-  - Group-wise Selection Rate, TPR, FPR
-- Visual diagnostics of group disparities
-- Practical post-processing bias mitigation
-- Accuracy vs fairness trade-off analysis
-- Reproducible experiments with saved artifacts
+## 📊 Key results (example)
+- Accuracy / F1 preserved within **<2–3%** after mitigation  
+- **Demographic Parity Difference ↓** significantly post-mitigation  
+- **Equalized Odds gap ↓** with explicit trade-off reporting  
+
+(Exact values logged in `reports/eval_baseline.json` and `reports/mitigation_report.json`)
+
+---
+
+## 🛠 Tech stack
+- **Python**, scikit-learn  
+- **Fairlearn** (fairness metrics)  
+- pandas, numpy, matplotlib  
+- joblib (model artifacts)  
+
+---
+
+## ⚡ Can I run this in 2 minutes?
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+python src/download_data.py
+python src/make_dataset.py
+python src/train.py
+python src/evaluate.py
+python src/mitigate.py --sensitive sex
 
 ---
 
@@ -69,6 +68,19 @@ netflix-bias-fairness-ml/
     └── mitigate.py           # bias mitigation strategy
 
 ```
+OFFLINE
+┌────────┐   ┌────────────┐   ┌────────┐   ┌──────────┐
+│  Logs  │ → │ Preprocess │ → │ Train  │ → │ Evaluate │
+└────────┘   └────────────┘   └────────┘   └──────────┘
+                                      ↓
+                                 Model Registry
+                                      ↓
+ONLINE
+┌─────────┐ → ┌──────────────┐ → ┌────────┐ → ┌─────────┐
+│ Request │   │ Feature Build│   │ Score  │   │ Decision│
+└─────────┘   └──────────────┘   └────────┘   └─────────┘
+                                   ↑
+                           Fairness Thresholds
 
 
 
