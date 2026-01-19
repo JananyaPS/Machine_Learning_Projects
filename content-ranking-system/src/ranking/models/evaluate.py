@@ -2,7 +2,6 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-
 def dcg_at_k(rels: np.ndarray, k: int) -> float:
     rels = rels[:k]
     if rels.size == 0:
@@ -11,13 +10,11 @@ def dcg_at_k(rels: np.ndarray, k: int) -> float:
     discounts = np.log2(np.arange(2, rels.size + 2))
     return float(np.sum(gains / discounts))
 
-
 def ndcg_at_k(rels: np.ndarray, k: int) -> float:
     dcg = dcg_at_k(rels, k)
     ideal = np.sort(rels)[::-1]
     idcg = dcg_at_k(ideal, k)
     return 0.0 if idcg == 0 else dcg / idcg
-
 
 def average_precision_at_k(binary_rels: np.ndarray, k: int) -> float:
     binary_rels = binary_rels[:k]
@@ -31,11 +28,9 @@ def average_precision_at_k(binary_rels: np.ndarray, k: int) -> float:
             precisions.append(hits / i)
     return float(np.mean(precisions)) if precisions else 0.0
 
-
 def map_at_k(rels: np.ndarray, k: int, positive_threshold: int = 1) -> float:
     binary = (rels >= positive_threshold).astype(int)
     return average_precision_at_k(binary, k)
-
 
 def evaluate_ranking(df: pd.DataFrame, score_col: str, k: int = 10) -> dict:
     """
