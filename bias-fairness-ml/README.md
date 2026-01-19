@@ -68,6 +68,7 @@ ONLINE (Inference & Decisioning)
                          ↑
                Fairness-aware Thresholds
 
+```
 ---
 ## Metrics & Evaluation
 
