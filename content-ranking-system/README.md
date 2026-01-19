@@ -82,3 +82,4 @@ Ranking quality is evaluated using **listwise metrics**, computed per `(user_id,
   - Rolling user/item features computed only from past data
   - Validation and test sets strictly follow temporal order
 
+**This project demonstrates a production-aligned approach to content ranking, combining offline Learning-to-Rank training with online inference and industry-standard evaluation.**
