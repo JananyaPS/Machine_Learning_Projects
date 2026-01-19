@@ -4,12 +4,9 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from typing import List, Dict, Any
-
 from src.ranking.inference.rank import rank_candidates
 
-
 app = FastAPI(title="Content Ranking API", version="1.0")
-
 
 class Context(BaseModel):
     device: str = "tv"
@@ -17,17 +14,14 @@ class Context(BaseModel):
     day_of_week: int = 2
     session_id: str = "s_online"
 
-
 class RankRequest(BaseModel):
     user_id: str
     candidates: List[str] = Field(min_length=1)
     context: Context = Context()
 
-
 @app.get("/health")
 def health():
     return {"status": "ok"}
-
 
 @app.post("/rank")
 def rank(req: RankRequest):
@@ -60,7 +54,6 @@ def rank(req: RankRequest):
         context=req.context.model_dump(),
         models_dir="artifacts/models",
     )
-
     return {
         "user_id": req.user_id,
         "ranked": ranked,
