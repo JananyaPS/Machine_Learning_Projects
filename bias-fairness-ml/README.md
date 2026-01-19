@@ -51,19 +51,24 @@ python src/mitigate.py --sensitive sex
 
 ## Architecture
 
-OFFLINE
-┌────────┐   ┌────────────┐   ┌────────┐   ┌──────────┐
-│  Logs  │ → │ Preprocess │ → │ Train  │ → │ Evaluate │
-└────────┘   └────────────┘   └────────┘   └──────────┘
-                                      ↓
-                                 Model Registry
-                                      ↓
-ONLINE
-┌─────────┐ → ┌──────────────┐ → ┌────────┐ → ┌─────────┐
-│ Request │   │ Feature Build│   │ Score  │   │ Decision│
-└─────────┘   └──────────────┘   └────────┘   └─────────┘
-                                   ↑
-                           Fairness Thresholds
+The system is designed with a clear **offline training** and **online decisioning** separation, mirroring production ML systems.
+
+```text
+OFFLINE (Training & Evaluation)
+┌────────┐   ┌────────────┐   ┌────────┐   ┌──────────┐   ┌─────────────┐
+│  Logs  │ → │ Preprocess │ → │ Train  │ → │ Evaluate │ → │ Model Registry│
+└────────┘   └────────────┘   └────────┘   └──────────┘   └─────────────┘
+                                                        ↓
+                                            Fairness Metrics & Thresholds
+                                                        ↓
+ONLINE (Inference & Decisioning)
+┌─────────┐   ┌──────────────┐   ┌────────┐   ┌──────────┐
+│ Request │ → │ Feature Build│ → │ Score  │ → │ Decision │
+└─────────┘   └──────────────┘   └────────┘   └──────────┘
+                         ↑
+               Fairness-aware Thresholds
+
+---
 ## Metrics & Evaluation
 
 ### Performance metrics
