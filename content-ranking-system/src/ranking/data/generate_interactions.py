@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 import yaml
 
-
 @dataclass
 class Config:
     seed: int
@@ -18,7 +17,6 @@ class Config:
     n_sessions: int
     start_date: str
     end_date: str
-
 
 def _load_config(path: str) -> Config:
     with open(path, "r", encoding="utf-8") as f:
@@ -36,10 +34,8 @@ def _load_config(path: str) -> Config:
         end_date=str(cfg["data_gen"]["end_date"]),
     )
 
-
 def _ensure_dir(p: str) -> None:
     os.makedirs(p, exist_ok=True)
-
 
 def main(config_path: str) -> None:
     cfg = _load_config(config_path)
@@ -90,7 +86,6 @@ def main(config_path: str) -> None:
     item_pop = np.random.zipf(a=1.4, size=cfg.n_items).astype(float)
     item_pop = item_pop / item_pop.sum()
     chosen_items = np.random.choice(item_ids, size=cfg.n_interactions, p=item_pop)
-
     chosen_users = np.random.choice(user_ids, size=cfg.n_interactions, replace=True)
 
     # Implicit signals: impression -> click/play -> watch_time bucket
@@ -172,7 +167,6 @@ def main(config_path: str) -> None:
 
     print("✅ Generated raw data in:", cfg.raw_dir)
     print(json.dumps(summary, indent=2))
-
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
