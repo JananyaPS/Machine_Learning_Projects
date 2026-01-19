@@ -54,12 +54,15 @@ request(user + context + candidates)
         ↓
 feature lookup/build → score → rank → response
 
-# Repository Structure
+## Repository Structure
+
+```text
 configs/     → pipeline & model parameters
-src/         → modular data / features / models / inference / API
-artifacts/   → trained models + evaluation reports
+src/         → modular data, features, models, inference, API
+artifacts/   → trained models & evaluation reports
 tests/       → unit tests
-.github/     → CI (GitHub Actions)
+.github/     → CI workflows (GitHub Actions)
+```
 
 ## Metrics & Evaluation
 
