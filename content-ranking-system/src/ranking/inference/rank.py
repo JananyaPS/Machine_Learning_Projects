@@ -5,12 +5,10 @@ import numpy as np
 
 from src.ranking.models.registry import load_model, RegistryPaths
 
-
 def _one_hot_from_meta(df: pd.DataFrame, feature_cols: list[str], cat_cols: list[str]) -> pd.DataFrame:
     x = pd.get_dummies(df, columns=cat_cols, dummy_na=True)
     x = x.reindex(columns=feature_cols, fill_value=0)
     return x
-
 
 def rank_candidates(
     user_row: dict,
