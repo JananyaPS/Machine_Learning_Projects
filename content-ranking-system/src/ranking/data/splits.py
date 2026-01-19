@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 
-
 def time_split(df: pd.DataFrame, train_frac: float, val_frac: float, test_frac: float):
     if abs(train_frac + val_frac + test_frac - 1.0) > 1e-6:
         raise ValueError("train/val/test fractions must sum to 1.0")
@@ -15,7 +14,6 @@ def time_split(df: pd.DataFrame, train_frac: float, val_frac: float, test_frac: 
     val = df.iloc[n_train:n_train + n_val].copy()
     test = df.iloc[n_train + n_val:].copy()
     return train, val, test
-
 
 def random_split(df: pd.DataFrame, train_frac: float, val_frac: float, test_frac: float, seed: int):
     if abs(train_frac + val_frac + test_frac - 1.0) > 1e-6:
