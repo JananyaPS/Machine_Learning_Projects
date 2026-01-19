@@ -68,6 +68,9 @@ netflix-bias-fairness-ml/
     └── mitigate.py           # bias mitigation strategy
 
 ```
+
+## Architecture
+
 OFFLINE
 ┌────────┐   ┌────────────┐   ┌────────┐   ┌──────────┐
 │  Logs  │ → │ Preprocess │ → │ Train  │ → │ Evaluate │
@@ -81,6 +84,50 @@ ONLINE
 └─────────┘   └──────────────┘   └────────┘   └─────────┘
                                    ↑
                            Fairness Thresholds
+## Metrics & Evaluation
+
+### Performance metrics
+- **Accuracy**
+- **F1 score**
+
+### Fairness metrics (Fairlearn)
+- **Demographic Parity Difference**
+- **Demographic Parity Ratio**
+- **Equalized Odds Difference**
+- **Selection Rate** (per group)
+- **True Positive Rate (TPR)** and **False Positive Rate (FPR)** (per group)
+
+### Evaluation methodology
+- Stratified train/test split to preserve class balance
+- Sensitive attributes **excluded from training** and used **only for auditing**
+- Group-wise metrics reported alongside global performance
+- All metrics saved as versioned JSON artifacts for reproducibility
+
+### Leakage prevention
+- No sensitive attributes used as predictive features
+- No post-test tuning of thresholds
+- Evaluation performed strictly on held-out data
+
+---
+
+## Project Structure
+
+```text
+netflix-bias-fairness-ml/
+├── README.md                 # project documentation
+├── requirements.txt          # python dependencies
+├── .gitignore
+├── data/                     # auto-created; do not commit raw data
+├── models/                   # saved model artifacts
+├── reports/                  # metrics (JSON) + plots
+└── src/
+    ├── config.py             # configuration & hyperparameters
+    ├── utils.py              # shared utility functions
+    ├── download_data.py      # dataset download (OpenML)
+    ├── make_dataset.py       # preprocessing & train/test split
+    ├── train.py              # baseline model training
+    ├── evaluate.py           # performance + fairness evaluation
+    └── mitigate.py           # bias mitigation strategy
 
 
 
