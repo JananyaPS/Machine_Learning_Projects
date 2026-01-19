@@ -15,25 +15,20 @@ from src.ranking.features.context_features import add_context_features
 from src.ranking.models.evaluate import evaluate_ranking
 from src.ranking.models.registry import save_model, RegistryPaths
 
-
 def _ensure_dir(p: str) -> None:
     os.makedirs(p, exist_ok=True)
-
 
 def _load_yaml(path: str) -> dict:
     with open(path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
-
 def _one_hot_encode(df: pd.DataFrame, cat_cols: list[str]) -> pd.DataFrame:
     return pd.get_dummies(df, columns=cat_cols, dummy_na=True)
-
 
 def _build_group_sizes(df: pd.DataFrame) -> np.ndarray:
     # group sizes for LightGBM ranker (must align with row order)
     grouped = df.groupby(["user_id", "session_id"], sort=False).size().to_numpy()
     return grouped.astype(int)
-
 
 def main(config_path: str) -> None:
     cfg = _load_yaml(config_path)
@@ -184,7 +179,6 @@ def main(config_path: str) -> None:
     }
 
     save_model(booster, meta, RegistryPaths(models_dir=models_dir))
-
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
