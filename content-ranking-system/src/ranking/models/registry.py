@@ -4,15 +4,12 @@ from dataclasses import dataclass
 from typing import Any, Dict
 import lightgbm as lgb
 
-
 @dataclass
 class RegistryPaths:
     models_dir: str
 
-
 def ensure_dir(path: str) -> None:
     os.makedirs(path, exist_ok=True)
-
 
 def save_model(model: lgb.Booster, meta: Dict[str, Any], paths: RegistryPaths) -> None:
     ensure_dir(paths.models_dir)
@@ -25,7 +22,6 @@ def save_model(model: lgb.Booster, meta: Dict[str, Any], paths: RegistryPaths) -
 
     print(f"✅ Saved model: {model_path}")
     print(f"✅ Saved meta:  {meta_path}")
-
 
 def load_model(paths: RegistryPaths) -> tuple[lgb.Booster, Dict[str, Any]]:
     model_path = os.path.join(paths.models_dir, "ltr_model.txt")
