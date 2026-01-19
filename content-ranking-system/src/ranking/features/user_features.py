@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def add_user_aggregate_features(df: pd.DataFrame, interactions: pd.DataFrame, window_days: int = 30) -> pd.DataFrame:
     """
     Offline feature-store style user aggregates from interaction logs.
