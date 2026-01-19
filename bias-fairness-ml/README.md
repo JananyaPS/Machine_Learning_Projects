@@ -46,28 +46,8 @@ python src/make_dataset.py
 python src/train.py
 python src/evaluate.py
 python src/mitigate.py --sensitive sex
-
+```
 ---
-
-## Repository structure (visual)
-```
-netflix-bias-fairness-ml/
-├── README.md                 # project documentation
-├── requirements.txt          # python dependencies
-├── .gitignore
-├── data/                     # auto-created; do not commit raw data
-├── models/                   # saved model artifacts
-├── reports/                  # metrics (JSON) + plots
-└── src/
-    ├── config.py             # configuration & hyperparameters
-    ├── utils.py              # shared utility functions
-    ├── download_data.py      # dataset download (OpenML)
-    ├── make_dataset.py       # preprocessing & train/test split
-    ├── train.py              # baseline model training
-    ├── evaluate.py           # performance + fairness evaluation
-    └── mitigate.py           # bias mitigation strategy
-
-```
 
 ## Architecture
 
