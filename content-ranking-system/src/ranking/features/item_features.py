@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def add_item_aggregate_features(df: pd.DataFrame, interactions: pd.DataFrame, window_days: int = 30) -> pd.DataFrame:
     interactions = interactions.copy()
     interactions["timestamp"] = pd.to_datetime(interactions["timestamp"])
