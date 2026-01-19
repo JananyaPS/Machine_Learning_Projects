@@ -43,7 +43,7 @@ python -m src.ranking.models.train_ltr --config configs/ranker.yaml
 
 # 4. Run API
 uvicorn src.ranking.api.app:app --reload --port 8000
-
+```
 ---
 ## Architecture
 OFFLINE
