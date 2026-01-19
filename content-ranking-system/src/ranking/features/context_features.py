@@ -1,6 +1,5 @@
 import pandas as pd
 
-
 def add_context_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     Context = request-time features (device, time-of-day, day-of-week).
