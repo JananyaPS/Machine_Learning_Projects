@@ -1,20 +1,21 @@
-# End-to-End ML Pipeline: User Engagement Prediction (MovieLens)
+# User Engagement Prediction
 
-Production-style machine learning system that predicts the probability of user engagement from historical interaction data using offline training and evaluation.
+Production-style machine learning system that predicts user engagement probability from historical interaction data, designed as a reusable signal for ranking, personalization, and decision systems.
 
+---
 ---
 
 ## Dataset
 MovieLens Latest Small from GroupLens.
 
-Problem it solves
+## Problem it Solves
 
-User engagement signals (clicks, views, interactions) power:
-- Personalization systems
-- Ranking and recommendation pipelines
-- Retention and growth analytics
+User engagement signals (clicks, views, interactions) determine:
+- What content is ranked higher
+- Which users receive interventions
+- How systems optimize retention and growth
 
-Rather than heuristic rules, this project models engagement **probabilistically** using a structured ML pipeline, enabling consistent scoring, evaluation, and interpretability suitable for downstream production systems.
+This project focuses on **predicting engagement as a calibrated probability**, not a heuristic score, enabling consistent downstream usage in ranking, filtering, and optimization pipelines.
 
 ## Approach
 - Time-aware split: last interaction per user is held out for testing
@@ -29,7 +30,47 @@ Rather than heuristic rules, this project models engagement **probabilistically*
   - SHAP summary plot
 ---
 
-Key results (offline)
+## Architecture
+
+### OFFLINE (Training & Evaluation)
+
+raw interaction logs  
+→ dataset construction (time-aware)  
+→ feature engineering (behavioral, temporal, aggregate)  
+→ model training  
+→ offline evaluation  
+→ explainability artifacts  
+
+The offline pipeline mirrors production ML workflows and enforces strict separation between data preparation, modeling, and evaluation.
+
+---
+
+### ONLINE (Future Extension)
+
+request (user + context)  
+→ feature lookup / build  
+→ engagement probability scoring  
+→ downstream ranking / personalization systems  
+
+The engagement score is designed to act as an **input signal**, not a final decision, allowing flexible use across multiple systems.
+
+---
+
+## Metrics & Evaluation
+
+### Metrics
+
+| Metric   | Why it matters in this system |
+|--------|--------------------------------|
+| ROC-AUC | Validates that engaged users are consistently scored higher than non-engaged users, making the output suitable as a ranking or prioritization signal |
+| Accuracy | Evaluates decision quality at a fixed threshold when the score is used for binary actions (e.g., trigger, filter, alert) |
+| RMSE | Measures calibration error of engagement probabilities, ensuring scores are numerically meaningful for weighting and optimization |
+
+Metrics are selected based on **how engagement scores are consumed**, not just model correctness.
+
+---
+
+## Key results (offline)
 
 Metric        Validation        Test
 ROC-AUC      ~0.75–0.85*        ~0.75–0.85*
@@ -40,13 +81,13 @@ RMSE         ~0.35–0.45*        ~0.35–0.45*
 
 ---
 
-Tech stack
+## Tech stack
 
 Python · Pandas · NumPy · Scikit-learn · SHAP · Pytest
 
 ---
 
-Quickstart (2 minutes)
+## Quickstart (2 minutes)
 
 ```bash
 # 1. Setup environment
