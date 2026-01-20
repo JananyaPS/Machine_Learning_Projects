@@ -78,7 +78,7 @@ user → score → rank → explain → respond
 
 ---
 
-This project demonstrates **production-aligned recommender system design** with a focus on **interpretability, trust, and robustness**, not just accuracy.
+This project demonstrates production-aligned recommender system design with a focus on interpretability, trust, and robustness, not just accuracy.
 
 
 
