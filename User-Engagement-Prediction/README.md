@@ -108,7 +108,9 @@ python src/evaluate.py
 # 6. Explain predictions
 python src/explain.py
 
-```
+## Repository Structure
+
+```text
 User-Engagement-Prediction/
 ├── src/
 │   ├── config.py           # global configuration & reproducibility
@@ -121,6 +123,7 @@ User-Engagement-Prediction/
 ├── requirements.txt        # dependencies
 ├── .gitignore              # ignore rules
 └── README.md               # documentation
+```
 
 This project demonstrates a production-aligned approach to user engagement modeling, emphasizing reproducibility, leakage-safe evaluation, calibrated predictions, and explainability—core requirements for real-world machine learning systems.
 
