@@ -1,6 +1,6 @@
 # 🚀 Machine Learning Projects
 
-A curated portfolio of **production-oriented machine learning systems** demonstrating skills essential for **Amazon** and **Netflix**:
+A curated portfolio of **production-oriented machine learning systems** demonstrating skills of:
 - scalable data processing  
 - ranking & personalization  
 - engagement prediction  
