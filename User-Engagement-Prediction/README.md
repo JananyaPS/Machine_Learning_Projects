@@ -107,6 +107,7 @@ python src/evaluate.py
 
 # 6. Explain predictions
 python src/explain.py
+```
 
 ## Repository Structure
 
