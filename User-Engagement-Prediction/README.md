@@ -126,6 +126,6 @@ User-Engagement-Prediction/
 └── README.md               # documentation
 ```
 
-This project demonstrates a production-aligned approach to user engagement modeling, emphasizing reproducibility, leakage-safe evaluation, calibrated predictions, and explainability—core requirements for real-world machine learning systems.
+This project demonstrates a production-aligned approach to user engagement modeling, emphasizing reproducibility, leakage-safe evaluation, calibrated predictions, and explainability which are core requirements for real-world machine learning systems.
 
 
