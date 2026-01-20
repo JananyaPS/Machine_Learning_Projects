@@ -3,7 +3,6 @@
 Production-style machine learning system that predicts user engagement probability from historical interaction data, designed as a reusable signal for ranking, personalization, and decision systems.
 
 ---
----
 
 ## Dataset
 MovieLens Latest Small from GroupLens.
@@ -109,6 +108,20 @@ python src/evaluate.py
 # 6. Explain predictions
 python src/explain.py
 
+```
+User-Engagement-Prediction/
+├── src/
+│   ├── config.py           # global configuration & reproducibility
+│   ├── download_data.py    # data ingestion
+│   ├── make_dataset.py     # dataset creation & time-aware splits
+│   ├── features.py         # feature engineering
+│   ├── train.py            # model training
+│   ├── evaluate.py         # offline metrics & reports
+│   └── explain.py          # explainability (SHAP / feature importance)
+├── requirements.txt        # dependencies
+├── .gitignore              # ignore rules
+└── README.md               # documentation
+
+This project demonstrates a production-aligned approach to user engagement modeling, emphasizing reproducibility, leakage-safe evaluation, calibrated predictions, and explainability—core requirements for real-world machine learning systems.
 
 
-python src/explain.py
